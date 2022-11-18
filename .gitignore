@@ -1,0 +1,6 @@
+# Project exclude paths
+/admin-parent/admin-component/target/
+/admin-parent/admin-entity/target/
+/admin-parent/admin-webui/target/
+/common-reserve/target/
+/common-utils/target/
