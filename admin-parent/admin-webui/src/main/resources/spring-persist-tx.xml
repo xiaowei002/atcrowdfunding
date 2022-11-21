@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--配置声明式事务-->
+    <!--配置自动扫描的包-->
+    <context:component-scan base-package="com.xiaowei.service"/>
+
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--装配数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--配置事务切面-->
+    <aop:config>
+        <aop:pointcut expression="execution(* *..*ServiceImpl.*(..))" id="txPointCut"></aop:pointcut>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"></aop:advisor>
+    </aop:config>
+
+
+    <!--配置事务的通知-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--配置事务的属性-->
+        <tx:attributes>
+            <!--针对查询方法的话，设置为只读-->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="count" read-only="true"/>
+            <tx:method name="query" read-only="true"/>
+
+            <!--针对增删改方法，配置事务的隔离级别，以及回滚策略-->
+            <tx:method name="save*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"></tx:method>
+            <tx:method name="update*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"></tx:method>
+            <tx:method name="remove*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"></tx:method>
+            <tx:method name="batch*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"></tx:method>
+        </tx:attributes>
+
+
+    </tx:advice>
+</beans>

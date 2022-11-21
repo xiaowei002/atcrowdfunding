@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!--指定日志的输出位置-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--日志的输出格式-->
+            <!--时间，级别，线程，日志类，日志主体内容，换行-->
+            <pattern>[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger] [%msg]%n</pattern>
+        </encoder>
+    </appender>
+    <!--设置全局的日志级别，debug，info，warn，error，-->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+    <!--根据特殊需求指定局部日志级别-->
+    <logger name="com.xiaowei.mapper" level="DEBUG" />
+</configuration>
