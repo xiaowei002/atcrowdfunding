@@ -74,4 +74,16 @@ public class Admin {
     public void setCreateTime(String createTime) {
         this.createTime = createTime == null ? null : createTime.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", loginAcct='" + loginAcct + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPswd='" + userPswd + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
+    }
 }
