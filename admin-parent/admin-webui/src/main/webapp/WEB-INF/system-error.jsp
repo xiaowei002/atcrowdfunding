@@ -43,13 +43,10 @@
 </nav>
 
 <div class="container">
-
-    <form action="admin/do/login.html" method="post" class="form-signin" role="form">
-        <h2 class="form-signin-heading" style="text-align: center"><i class="glyphicon glyphicon-log-in"></i>尚筹网系统消息</h2>
-        <p>${requestScope.exception.message}</p>
-        <h3 style="text-align: center">${requestScope.exception.message}</h3>
-        <button class="btn btn-lg btn-success btn-block">点我返回上一步</button>
-    </form>
+    <h2 class="form-signin-heading" style="text-align: center"><i class="glyphicon glyphicon-log-in"></i>尚筹网系统消息</h2>
+    <p>${requestScope.exception.message}</p>
+    <h3 style="text-align: center">${requestScope.exception.message}</h3>
+    <button class="btn btn-lg btn-success btn-block">点我返回上一步</button>
 </div>
 </body>
 </html>
