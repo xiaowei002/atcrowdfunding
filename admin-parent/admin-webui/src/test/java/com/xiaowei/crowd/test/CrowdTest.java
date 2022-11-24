@@ -58,6 +58,14 @@ public class CrowdTest {
         System.out.println(insert);
     }
 
+    @Test
+    public void addData(){
+        Admin admin = null;
+        for (int i = 0; i < 238; i++) {
+            admin = new Admin(null, "tom"+i, "汤姆"+i, "123123", "tom@qq.com", null);
+            adminMapper.insert(admin);
+        }
+    }
 
     @Test
     public void testConnection() throws SQLException {

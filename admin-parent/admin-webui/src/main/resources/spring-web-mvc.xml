@@ -33,6 +33,8 @@
 
     <mvc:view-controller path="/admin/do/main.html" view-name="admin-main"></mvc:view-controller>
 
+    <mvc:view-controller path="/admin/to/add.html" view-name="admin-add"></mvc:view-controller>
+
     <!--注册拦截器-->
     <mvc:interceptors>
         <mvc:interceptor>

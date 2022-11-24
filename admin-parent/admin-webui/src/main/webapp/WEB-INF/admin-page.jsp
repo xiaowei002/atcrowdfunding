@@ -10,6 +10,38 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <%@include file="include-head.jsp" %>
+<link rel="stylesheet" href="css/pagination.css">
+<script type="text/javascript" src="jQuery/jquery.pagination.js"></script>
+<script type="text/javascript">
+    $(function (){
+        //调用初始化参数
+        initPagination();
+    })
+
+    function initPagination(){
+        //获取总记录数
+        var totalRecord = ${requestScope.pageInfo.total};
+
+        let properties = {
+            num_edge_entries:3,
+            num_display_entries:5,
+            callback:pageSelectCallback,
+            items_per_page:${requestScope.pageInfo.pageSize},
+            current_page:${requestScope.pageInfo.pageNum - 1},
+            prev_text:"上一页",
+            next_text:"下一页"
+        }
+
+        $("#Pagination").pagination(totalRecord,properties)
+
+        //用户点击一二三实现页面跳转
+        function pageSelectCallback(pageIndex,jQuery){
+            let pageNumber = pageIndex + 1;
+            window.location.href = "admin/get/page.html?pageNumber="+pageNumber+"&keyword=${param.keyword}";
+            return false;
+        }
+    }
+</script>
 <body>
 <%@include file="include-nav.jsp" %>
 <div class="container-fluid">
@@ -21,17 +53,18 @@
                     <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
                 </div>
                 <div class="panel-body">
-                    <form class="form-inline" role="form" style="float:left;">
+                    <form action="admin/get/page.html" method="post" class="form-inline" role="form" style="float:left;">
                         <div class="form-group has-feedback">
                             <div class="input-group">
                                 <div class="input-group-addon">查询条件</div>
-                                <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+                                <input name="keyword" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <button type="submit" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<%--                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>--%>
+                    <a href="admin/to/add.html" style="float:right;" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>新增</a>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -63,8 +96,10 @@
                                         <td>${admin.email}</td>
                                         <td>
                                             <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-                                            <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-                                            <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+<%--                                            <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>--%>
+                                            <a href="admin/update?id=${admin.id}&pageNumber=${requestScope.pageInfo.pageNum}&keyword=${param.keyword}" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></a>
+<%--                                            <button type="button" class="btn btn-danger btn-xs">$<i class=" glyphicon glyphicon-remove"></i></button>--%>
+                                            <a href="admin/remove/${admin.id}" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -75,18 +110,9 @@
                             <tfoot>
                             <tr>
                                 <td colspan="6" align="center">
-                                    <ul class="pagination">
-                                        <li class="disabled"><a href="#">上一页</a></li>
-                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">下一页</a></li>
-                                    </ul>
+                                    <div id="Pagination" class="pagination"></div>
                                 </td>
                             </tr>
-
                             </tfoot>
                         </table>
                     </div>

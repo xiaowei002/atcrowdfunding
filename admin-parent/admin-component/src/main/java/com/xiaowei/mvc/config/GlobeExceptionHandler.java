@@ -3,6 +3,8 @@ package com.xiaowei.mvc.config;
 import com.google.gson.Gson;
 import com.xiaowei.util.Constant.ConstantCrowd;
 import com.xiaowei.util.Exception.AccessForbiddenException;
+import com.xiaowei.util.Exception.LoginAcctAlreadyInUseException;
+import com.xiaowei.util.Exception.LoginAcctAlreadyInUseForUpdateException;
 import com.xiaowei.util.Exception.LoginFailedException;
 import com.xiaowei.util.requestType.JudgeRequestType;
 import com.xiaowei.util.result.ResultEntity;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,12 +19,27 @@ import java.io.IOException;
 @ControllerAdvice
 public class GlobeExceptionHandler {
 
+    @ExceptionHandler(value = LoginAcctAlreadyInUseException.class)
+    public ModelAndView exceptionHandlerMethod(LoginAcctAlreadyInUseException exception, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        //1.判断请求类型,true:ajax 请求
+        String viewName = "admin-add";
+        return getModelAndView(exception, request, response,viewName);
+    }
     @ExceptionHandler(LoginFailedException.class)
     public ModelAndView exceptionHandlerMethod(LoginFailedException exception,HttpServletResponse response,HttpServletRequest request) throws IOException {
         //1.判断请求类型,true:ajax 请求
         String viewName = "admin-login";
         return getModelAndView(exception, request, response,viewName);
     }
+
+    @ExceptionHandler(LoginAcctAlreadyInUseForUpdateException.class)
+    public ModelAndView exceptionHandlerMethod(LoginAcctAlreadyInUseForUpdateException exception, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        //1.判断请求类型,true:ajax 请求
+        String viewName = "system-error";
+        return getModelAndView(exception, request, response,viewName);
+    }
+
+
     @ExceptionHandler(AccessForbiddenException.class)
     public ModelAndView exceptionHandlerMethod(AccessForbiddenException exception,HttpServletRequest request,HttpServletResponse response) throws IOException {
         String viewName = "admin-login";
